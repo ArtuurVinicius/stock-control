@@ -149,7 +149,7 @@
             <td>
               <div class="flex justify-content-center gap-3 align-content-center align-items-center">
                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning" pTooltip="Editar o produto" tooltipPosition="top" (click)="handleProductEvent(editProductEvent, product.id)"></button>
-                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" pTooltip="Remover o produto" tooltipPosition="top"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" pTooltip="Remover o produto" tooltipPosition="top" (click)="handleDeleteProduct(product?.id, product?.name)"></button>
               </div>
             </td>
           </tr>
