@@ -32,7 +32,21 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.categoryAction = this.ref.data;
 
+    if (this.categoryAction?.event?.action === this.editCategoryAction && this.categoryAction?.event?.categoryName !== null || undefined) {
+      this.setCategoryName(this.categoryAction?.event?.categoryName as string);
+    }
+  }
+
+  handleSubmitCategoryAction(): void {
+    if (this.categoryAction?.event?.action === this.addCategoryAction) {
+      this.handleSubmitAddCategory();
+    } else if (this.categoryAction?.event?.action === this.editCategoryAction) {
+      this.handleSubmitEditCategory();
+    }
+
+    return;
   }
 
   handleSubmitAddCategory(): void {
@@ -67,6 +81,43 @@ export class CategoryFormComponent implements OnInit, OnDestroy {
           });
         }
       })
+    }
+  }
+
+  handleSubmitEditCategory(): void {
+    if (this.categoryForm?.value && this.categoryForm?.valid && this.categoryAction?.event?.id) {
+      const requestEditCategory: {name: string; category_id: string} = {
+        name: this.categoryForm?.value?.name as string,
+        category_id: this.categoryAction?.event?.id as string
+      }
+      this.categoriesService.editCategoryName(requestEditCategory)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response) => {
+          this.categoryForm.reset();
+          this.messageService.add({
+            severity:'success',
+            summary:'Success',
+            detail: 'Categoria editada com sucesso',
+            life: 3000
+          });
+        }, error: (error) => {
+          console.log(error);
+          this.categoryForm.reset();
+          this.messageService.add({
+            severity:'error',
+            summary:'Erro',
+            detail: 'Erro ao editar categoria',
+            life: 3000
+          });
+        }
+      })
+    }
+  }
+
+  setCategoryName(categoryName: string): void {
+    if (categoryName) {
+      this.categoryForm.setValue({ name: categoryName})
     }
   }
 

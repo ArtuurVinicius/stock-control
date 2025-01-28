@@ -16,7 +16,7 @@ export class CategoriesTableComponent {
   @Output() public deleteCategoryEvent = new EventEmitter<DeleteCategoryAction>();
   public categorySelected!: GetCategoriesResponse;
   public addCategoryAction = CategoryEvent.ADD_CATEGORY_ACTION;
-  public EditCategoryAction = CategoryEvent.EDIT_CATEGORY_ACTION;
+  public editCategoryAction = CategoryEvent.EDIT_CATEGORY_ACTION;
 
   handleDeleteCategoryEvent(categoryId: string, categoryName: string): void {
     if (categoryId !== '' && categoryName !== '') {
